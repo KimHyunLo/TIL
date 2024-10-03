@@ -119,3 +119,81 @@ console.log(foo); // 'foo'
 2. window 또는 global, 즉 전역 객체에 접근하거나 조작하지 않는다.
 3. var 키워드 대신 const 또는 let 키워드를 사용한다.
 4. 즉시 실행 함수(IIFE), 모듈, 클로저를 사용하여 스코프를 나눈다.
+
+## 임시변수
+
+임시변수는 함수 내에서 연산 처리를 위해 임시로 생성한 변수를 의미한다. 그러나 이러한 임시변수도 함수의 길이가 길어질수록 전역변수처럼 활용될 수 있기 때문에 사용을 최소화해야 한다.
+
+```
+fuction getElements() {
+  const result = {}; // 임시변수
+
+  result.title = document.querySelector('.title');
+  result.text = document.querySelector('.text');
+  result.value = document.querySelector('.value');
+
+  return result;
+}
+```
+
+임시변수의 문제점은 미래의 자신이나 주변 팀원들이 임시변수에 추가로 연산을 덧붙일 수 있다는 점이다. 이렇게 되면 함수의 크기가 커질 뿐만 아니라, 기존 사용 용도가 바뀔 수 있어 코드 관리가 복잡해진다.
+
+```
+fuction getElements() {
+  return {
+    title = document.querySelector('.title');
+    text = document.querySelector('.text');
+    value = document.querySelector('.value');
+  };
+}
+```
+
+임시변수를 최소화하는 가장 간단한 방법은 변수를 선언하지 않는 것이다. 이렇게 하면 함수에 추가적인 연산을 처리하기 애매해지고, 무엇보다 함수의 사용 목적이 뚜렷하게 나타나기 때문에 나중에 코드를 이해하기 쉬워진다.
+
+```
+function getDateTime(targetDate) {
+  let month = targetDate.getMonth();
+  let day = targetDate.getDate();
+  let hour = targetDate.getHours();
+
+  month = month >= 10? month : '0' + month;
+  day = day >= 10? day : '0' + day;
+  hour = hour >= 10? hour : '0' + hour;
+
+  return {
+    month, day, hour
+  }
+}
+```
+
+현업에서 기획이 바뀌거나 추가 로직이 필요한 경우, 개발자는 두 가지 방법으로 문제를 해결할 수 있다. 첫 번째는 기존 함수의 코드를 수정하여 재사용하는 것이고, 두 번째는 바뀐 로직을 담은 새로운 함수를 만드는 것이다.
+
+하지만 기존 함수를 수정하면 기존 함수를 사용하는 모든 곳에서 아웃풋이 바뀌기 때문에 예상치 못한 버그가 발생할 수 있다. 또한, 한 번 연산이 바뀐 함수는 계속해서 로직이 바뀔 수 있어 함수에 대한 신뢰가 사라질 위험이 있다.
+
+```
+function getDateTime(targetDate) {
+  const month = targetDate.getMonth();
+  const day = targetDate.getDate();
+  const hour = targetDate.getHours();
+
+  return {
+    month: month >= 10? month : '0' + month;
+    day: day >= 10? day : '0' + day;
+    hour: hour >= 10? hour : '0' + hour;
+  }
+}
+
+function getCurrentTime() {
+  const currentDateTime = getDateTime(new Date());
+
+  return {
+    month: currentDateTime.month + '월';
+    day: currentDateTime.day + '일';
+    hour: currentDateTime.hour + '시';
+  }
+}
+```
+
+코드의 일관성을 유지하기 위해서는 기존 함수를 수정하기보다는 기존 함수의 결과값을 다시 연산하는 새로운 함수를 만드는 것이 좋다. 이를 위해 변수 선언 시 let이 아닌 const를 사용하여 변수의 값이 바뀌지 않도록 설계해야 한다.
+
+그러나 const를 사용하더라도 객체나 배열을 다루는 변수는 내부값의 수정이 가능하므로, 최대한 함수를 하나의 연산만 하도록 설계하여 임시변수 사용을 최소화해야 한다.
