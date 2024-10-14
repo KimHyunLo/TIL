@@ -1,8 +1,8 @@
 ## 변수 선언 타입
 
-자바스크립트에서 변수를 선언할 때 사용할 수 있는 키워드는 `var`, `let`, `const` 세 가지다. 이들 키워드는 우선순위가 `const` > `let` > `var` 순서로 나뉘는데, 그 이유를 이해하기 위해서는 `var`의 함수 스코프와 `let`, `const`의 블록 스코프에 대해 알아야 한다.
+자바스크립트에서 변수를 선언할 때 사용할 수 있는 키워드는 `var`, `let`, `const` 세 가지다. 이들 키워드는 우선순위가 `const > let > var` 순서로 나뉘는데, 그 이유를 이해하기 위해서는 `var`의 함수 스코프와 `let`, `const`의 블록 스코프에 대해 알아야 한다.
 
-```
+```javascript
 var name = 'Max';
 var name = 'Jon';
 var name = 'Amy';
@@ -12,7 +12,7 @@ console.log(name); // 'Amy'
 
 `var` 키워드로 선언한 변수는 동일한 이름의 변수를 여러 번 선언해도 오류가 발생하지 않는다. 이 경우, 가장 마지막에 할당된 값이 최종적으로 변수의 값이 된다.
 
-```
+```javascript
 console.log(name); // undefined
 
 var name = 'Max';
@@ -20,7 +20,7 @@ var name = 'Max';
 
 반대로, 변수를 선언하기 전에 `var` 키워드로 선언된 변수를 호출하면 `undefined`가 출력되는 것을 확인할 수 있다. 이처럼 `var` 키워드는 재할당과 재선언이 자유로워 코드가 길어질수록 관리가 어려워질 수 있다.
 
-```
+```javascript
 let name = 'Max';
 let name = 'Jon'; // 오류 발생
 let name = 'Amy';
@@ -28,7 +28,7 @@ let name = 'Amy';
 
 하지만 `var` 키워드를 `let`으로 변경하면 변수의 재선언을 방지할 수 있다. `let` 키워드는 동일한 이름의 변수를 재선언할 경우 문법 오류를 발생시키므로, 컴파일 단계에서부터 이러한 재선언을 제한한다.
 
-```
+```javascript
 let name = 'Max';
 name = 'Amy';
 console.log(name); // 'Amy'
@@ -43,7 +43,7 @@ age = 19; // 오류 발생
 
 변수를 선언할 때 전역변수를 되도록 사용하지 말라는 이야기가 있다. 전역변수는 전역 스코프에서 선언한 변수를 의미하며, 코드 어디서나 호출할 수 있다. 그러나 이로 인해 원치 않는 영역에서도 변수에 영향을 줄 수 있어 변수가 설계와 다른 용도로 사용될 위험이 있다.
 
-```
+```javascript
 var global = '전역';
 
 if (global === '전역') {
@@ -57,7 +57,7 @@ console.log(global); // 지역
 
 같은 이름의 `global` 변수를 선언했지만, 하나는 전역에서, 다른 하나는 `if` 문 블록 내에서 선언되었다. 그러나 `if` 문 블록에서 선언한 값이 전역 변수의 값까지 변경한 것을 마지막 줄에서 확인할 수 있다. 이처럼 `var` 키워드는 함수 스코프를 가지므로, 함수로 나뉘지 않은 영역에서 모든 스코프에 영향을 미칠 수 있다.
 
-```
+```javascript
 let global = '전역';
 
 if (global === '전역') {
@@ -73,7 +73,7 @@ console.log(global); // 전역
 
 결론적으로, 변수를 선언할 때 `var` 키드 대신 `let` 또는 `const` 키워드를 사용하는 것이 코드를 더 안전하게 작성할 수 있음을 알 수 있다. 여기서 추가로 `let` 대신 `const`를 더 우선적으로 사용하는 것이 코드 일관성 측면에서 더 효과적이다.
 
-```
+```javascript
 const person = {
   name: 'Max',
   age: '19',
@@ -91,41 +91,39 @@ console.log(person); // { name: 'Kim', age: '24' }
 
 전역 스코프에서 생성된 변수를 전역변수라고 하며, 개발자들은 최대한 전역변수를 생성하지 않으면서 코드를 작성해야 한다. 이 규칙은 일종의 불문율로 여겨지며, 자바스크립트의 런타임이 어떻게 동작하는지를 이해하면 그 이유를 쉽게 알 수 있다.
 
-```
+```javascript
 var foo = 'foo';
 console.log(window.foo); // 'foo'
 ```
 
-자바스크립트의 전역은 두 가지 종류가 있다. Node.js 기반으로 실행될 때는 global이 전역이 되며, 브라우저 기반으로 실행될 때는 window가 전역이 된다. 전역변수는 이러한 전역 객체의 프로퍼티로 생성되어 파일 어디서나 호출할 수 있도록 한다.
+자바스크립트의 전역은 두 종류가 있다. Node.js 기반으로 실행될 때는 `global`이 전역이 되며, 브라우저 기반으로 실행될 때는 `window`가 전역이 된다. 전역변수는 이러한 전역 객체의 프로퍼티로 생성되어 파일 어디서나 호출할 수 있도록 한다.
 
-```
+```javascript
 // test1.js
-
 var foo = 'foo';
 ```
 
-```
+```javascript
 // test2.js
-
 console.log(window.foo); // 'foo'
 console.log(foo); // 'foo'
 ```
 
-여기서 흥미로운 점은 전역 공간이 모든 JS 파일을 하나로 묶어 한 덩어리로 인식한다는 것이다. 따라서 변수가 생성된 파일이 아니어도 다른 파일에서 변수를 호출할 수 있다. 즉, 같은 변수명이 다른 파일과 섞일 수 있으며, var 키워드로 생성한 경우 재할당도 자유롭게 할 수 있어 원래의 목적이 퇴색될 위험이 있다.
+여기서 흥미로운 점은 전역 공간이 모든 JS 파일을 하나로 묶어 한 덩어리로 인식한다는 것이다. 따라서 변수가 생성된 파일이 아니어도 다른 파일에서 변수를 호출할 수 있다. 즉, 같은 변수명이 다른 파일과 섞일 수 있으며, `var` 키워드로 생성한 경우 재할당도 자유롭게 할 수 있어 원래의 목적이 퇴색될 위험이 있다.
 
-이처럼 전역 공간은 어디서나 접근 가능하고 스코프 분리가 불가능하기 때문에 사용을 최소화해야 한다. 전역 공간 사용을 줄이기 위해서는 다음과 같은 방법을 고려할 수 있다.
+이처럼 전역 공간은 어디서나 접근 가능하고, 스코프 분리가 불가능하기 때문에 사용을 최소화해야 한다. 전역 공간 사용을 줄이기 위해서는 다음과 같은 방법을 고려할 수 있다.
 
 1. 전역변수 대신 지역변수로만 함수를 작성한다.
-2. window 또는 global, 즉 전역 객체에 접근하거나 조작하지 않는다.
-3. var 키워드 대신 const 또는 let 키워드를 사용한다.
+2. `window` 또는 `global`, 즉 전역 객체에 접근하거나 조작하지 않는다.
+3. `var` 키워드 대신 `const` 또는 `let` 키워드를 사용한다.
 4. 즉시 실행 함수(IIFE), 모듈, 클로저를 사용하여 스코프를 나눈다.
 
 ## 임시변수
 
 임시변수는 함수 내에서 연산 처리를 위해 임시로 생성한 변수를 의미한다. 그러나 이러한 임시변수도 함수의 길이가 길어질수록 전역변수처럼 활용될 수 있기 때문에 사용을 최소화해야 한다.
 
-```
-fuction getElements() {
+```javascript
+function getElements() {
   const result = {}; // 임시변수
 
   result.title = document.querySelector('.title');
@@ -138,76 +136,78 @@ fuction getElements() {
 
 임시변수의 문제점은 미래의 자신이나 주변 팀원들이 임시변수에 추가로 연산을 덧붙일 수 있다는 점이다. 이렇게 되면 함수의 크기가 커질 뿐만 아니라, 기존 사용 용도가 바뀔 수 있어 코드 관리가 복잡해진다.
 
-```
-fuction getElements() {
+```javascript
+function getElements() {
   return {
-    title = document.querySelector('.title');
-    text = document.querySelector('.text');
-    value = document.querySelector('.value');
+    title: document.querySelector('.title'),
+    text: document.querySelector('.text'),
+    value: document.querySelector('.value'),
   };
 }
 ```
 
 임시변수를 최소화하는 가장 간단한 방법은 변수를 선언하지 않는 것이다. 이렇게 하면 함수에 추가적인 연산을 처리하기 애매해지고, 무엇보다 함수의 사용 목적이 뚜렷하게 나타나기 때문에 나중에 코드를 이해하기 쉬워진다.
 
-```
+```javascript
 function getDateTime(targetDate) {
   let month = targetDate.getMonth();
   let day = targetDate.getDate();
   let hour = targetDate.getHours();
 
-  month = month >= 10? month : '0' + month;
-  day = day >= 10? day : '0' + day;
-  hour = hour >= 10? hour : '0' + hour;
+  month = month >= 10 ? month : '0' + month;
+  day = day >= 10 ? day : '0' + day;
+  hour = hour >= 10 ? hour : '0' + hour;
 
   return {
     month, day, hour
-  }
+  };
 }
 ```
 
 현업에서 기획이 바뀌거나 추가 로직이 필요한 경우, 개발자는 두 가지 방법으로 문제를 해결할 수 있다. 첫 번째는 기존 함수의 코드를 수정하여 재사용하는 것이고, 두 번째는 바뀐 로직을 담은 새로운 함수를 만드는 것이다.
 
-하지만 기존 함수를 수정하면 기존 함수를 사용하는 모든 곳에서 아웃풋이 바뀌기 때문에 예상치 못한 버그가 발생할 수 있다. 또한, 한 번 연산이 바뀐 함수는 계속해서 로직이 바뀔 수 있어 함수에 대한 신뢰가 사라질 위험이 있다.
+하지만 기존 함수를 수정하면 기존 함수를 사용하는 모든 곳에서 아웃풋이 바뀌기 때문에 예상치 못한 버그가 발생할 수 있다. 또한 한 번 연산이 바뀐 함수는 계속해서 로직이 바뀔 수 있어 함수에 대한 신뢰가 사라질 위험이 있다.
 
-```
+```javascript
 function getDateTime(targetDate) {
   const month = targetDate.getMonth();
   const day = targetDate.getDate();
   const hour = targetDate.getHours();
 
   return {
-    month: month >= 10? month : '0' + month;
-    day: day >= 10? day : '0' + day;
-    hour: hour >= 10? hour : '0' + hour;
-  }
+    month: month >= 10 ? month : '0' + month,
+    day: day >= 10 ? day : '0' + day,
+    hour: hour >= 10 ? hour : '0' + hour,
+  };
 }
 
 function getCurrentTime() {
   const currentDateTime = getDateTime(new Date());
 
   return {
-    month: currentDateTime.month + '월';
-    day: currentDateTime.day + '일';
-    hour: currentDateTime.hour + '시';
-  }
+    month: currentDateTime.month + '월',
+    day: currentDateTime.day + '일',
+    hour: currentDateTime.hour + '시',
+  };
 }
 ```
 
-코드의 일관성을 유지하기 위해서는 기존 함수를 수정하기보다는 기존 함수의 결과값을 다시 연산하는 새로운 함수를 만드는 것이 좋다. 이를 위해 변수 선언 시 let이 아닌 const를 사용하여 변수의 값이 바뀌지 않도록 설계해야 한다.
+코드의 일관성을 유지하기 위해서는 기존 함수를 수정하기보다는 기존 함수의 결과값을 다시 연산하는 새로운 함수를 만드는 것이 좋다. 이를 위해 변수 선언 시 `let`이 아닌 `const`를 사용하여 변수의 값이 바뀌지 않도록 설계해야 한다.
 
-그러나 const를 사용하더라도 객체나 배열을 다루는 변수는 내부값의 수정이 가능하므로, 최대한 함수를 하나의 연산만 하도록 설계하여 임시변수 사용을 최소화해야 한다.
+그러나 `const`를 사용하더라도 객체나 배열을 다루는 변수는 내부값의 수정이 가능하므로, 최대한 함수를 하나의 연산만 하도록 설계하여 임시변수 사용을 최소화해야 한다.
 
 ## 호이스팅
 
 호이스팅은 간단히 말해 선언과 할당이 분리되어 동작하는 런타임을 의미한다. 자바스크립트 런타임은 변수나 함수의 선언을 스크립트의 맨 위로 끌어올리는 동작을 통해 변수값이 저장될 메모리 공간을 미리 할당한다.
 
-```
+```javascript
 console.log(name); // undefined
 var name = 'Max';
 ```
 
-```
+위 코드는 아래와 같이 해석된다.
+
+```javascript
 var name;
 console.log(name); // undefined
 name = 'Max';
@@ -215,7 +215,7 @@ name = 'Max';
 
 이러한 호이스팅 현상은 스코프가 꼬이거나 코드에서 예상치 못한 버그를 일으킬 수 있기 때문에, 호이스팅에 민감한 `var` 키워드 대신 `let`과 `const`를 사용하여 TDZ(Temporal Dead Zone)를 형성하는 것이 중요하다.
 
-```
+```javascript
 var sum;
 
 console.log(typeof sum); // function
@@ -227,12 +227,12 @@ function sum() {
 
 호이스팅은 변수에서만 발생하는 현상이 아니며, `function` 키워드를 통해 생성한 함수에서도 호이스팅이 발생한다. 함수도 재선언이 가능하며, 가장 마지막으로 선언된 함수가 함수명에 할당된 값이 된다.
 
-```
-console.log(sum()) // error
+```javascript
+console.log(sum()); // error
 
 const sum = function() {
   return 1 + 1;
 }
 ```
 
-하지만 `function` 키워드 대신 `let`이나 `const` 키워드를 사용하여 함수 표현식으로 생성할 경우 호이스팅으로 인해 예측이 안 되는 상황을 피할 수 있다. 따라서 가급적 `function` 키워드를 사용하는 것을 피하는 것이 좋다.
+하지만 `function` 키워드 대신 `let`이나 `const` 키워드를 사용하여 함수 표현식으로 생성할 경우 호이스팅으로 인해 예측이 안 되는 상황을 피할 수 있다. 따라서 가급적 `function` 키워드를 사용하는 것을 피하는 것이 좋다. 
