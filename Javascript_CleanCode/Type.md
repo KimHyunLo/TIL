@@ -62,3 +62,36 @@ Object.prototype.toString.call(new Date()); // '[object Date]'
 `instanceof`와 `typeof`는 타입 검사를 할 때 몇 가지 단점이 있다. 이러한 상황에서 정확한 타입을 검사하기 위해 고안된 방법은 객체 프로토타입을 역으로 이용하여 변수의 타입을 검사하는 방법이다.
 
 `prototype`에 `call`을 바인딩하여 변수를 검사할 경우, 객체 안에서 어떤 타입으로 분류되는지 문자열 값으로 출력할 수 있다. 이 방법은 무조건 맞는 방법은 아니지만, `typeof`와 `instanceof`보다 더 정확한 값을 확인할 수 있기 때문에 유용한 방법이다. 
+
+## Undefined & Null
+
+자바스크립트에서 값이 없다는 것을 정의하는 방법으로 `undefined`와 `null`을 사용할 수 있다. 하지만 둘은 명시적으로 다른 의미를 부여하며 사용하는 방법도 다르다.
+
+```javascript
+!null; // true
+!!null; // false
+
+null === false; // false
+null + 2; // 2
+```
+
+`null`은 기본적으로 "값이 없다는 것"을 명시적으로 정의할 때 사용한다. 값이 없다는 것은 변수를 생성했지만 내부에는 아직 값이 없다는 것을 의미한다. 이러한 성질 때문에 `null`은 boolean 값으로 치환하면 `true`가 되고, 수학적으로는 0이라는 의미를 가질 수 있다.
+
+```javascript
+let verb;
+
+typeof verb; // 'undefined'
+undefined + 2; // NaN
+```
+
+`undefined`는 `null`과 달리 "값을 정의하지 않았다는 것"을 명시적으로 정의한 타입이다. 둘의 차이점은 `null`은 값을 정의는 했지만 비어 있다는 것을 의미하고, `undefined`는 값을 정의하지 않은 상태를 의미할 때 사용된다. 이러한 성질 때문에 `undefined`는 연산을 통해 새로운 값을 창조할 수 없으며, 수학적으로 사용하면 `NaN`이 나온다.
+
+```javascript
+undefined == null; // true
+undefined === null; // false
+!undefined === !null; // true
+```
+
+비교 연산자로 `undefined`와 `null`을 비교하면 둘은 기본적으로 같은 값으로 평가되지만, 정확히 타입으로서 비교했을 때 둘은 다른 값이다. 반대로 두 타입을 not 연산자로 변형했을 때는 둘이 같은 값으로 평가된다.
+
+때문에 명확히 둘을 나눠서 생각하기 번거로울 수 있으며, 개발팀마다 `null`과 `undefined`를 어떤 상황에서 사용할 것인지 컨벤션을 미리 정리하고 협업하는 것이 좋다.
